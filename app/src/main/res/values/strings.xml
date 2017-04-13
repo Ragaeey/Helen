@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">HELEN</string>
+    <string name="title_activity_pdfviewer">PDFViewer</string>
+    <string name="speech_input_phrase">Say the Phrase</string>
+    <string name="stt_not_supported_message">Your Device Doesn\'t Support Speech to Text</string>
+    <string name="pref_speech_rate">Speech Rate</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

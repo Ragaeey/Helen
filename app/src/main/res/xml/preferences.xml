@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <ListPreference
+        android:key="pref_speech_rate"
+        android:title="Speech Rate"
+        android:summary="Choose Speech Rate"
+        android:entries="@array/speech_rate_entries"
+        android:entryValues="@array/speech_rate_values"
+        android:defaultValue="1"/>
+
+</PreferenceScreen>

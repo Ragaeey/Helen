@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:orderInCategory="0"
+        android:id="@+id/settings"
+        app:showAsAction="never"
+        android:title="Settings"/>
+
+    <item
+        android:orderInCategory="1"
+        android:id="@+id/play_pause"
+        app:showAsAction="always"
+        android:icon="@drawable/play_pause_button"
+        app:icon="@drawable/play_pause_button"
+        android:title="Play/Pause"/>
+</menu>
