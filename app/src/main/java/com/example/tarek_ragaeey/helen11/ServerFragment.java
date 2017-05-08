@@ -3,11 +3,11 @@ package com.example.tarek_ragaeey.helen11;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +15,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -31,7 +26,7 @@ import java.util.Locale;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ServerFragment extends Fragment  {
+public class ServerFragment extends Fragment {
 
 
     public ServerFragment() {
@@ -43,8 +38,8 @@ public class ServerFragment extends Fragment  {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root= inflater.inflate(R.layout.fragment_server, container, false);
-        ImageView mMic=(ImageView) root.findViewById(R.id.mic_view);
+        View root = inflater.inflate(R.layout.fragment_server, container, false);
+        ImageView mMic = (ImageView) root.findViewById(R.id.mic_view);
         mMic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -56,25 +51,27 @@ public class ServerFragment extends Fragment  {
     }
 
 
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-         if((requestCode == 100) && (data != null) ){
+        if ((requestCode == 100) && (data != null)) {
 
             // Store the data sent back in an ArrayList
             ArrayList<String> spokenText = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-
-            EditText wordsEntered = (EditText) getActivity().findViewById(R.id.input_text);
-
-            // Put the spoken text in the EditText
-            wordsEntered.setText(spokenText.get(0));
+            Log.e("Spoken Text", spokenText.get(0));
+            ServerTask Task = new ServerTask();
+            Task.execute(spokenText.get(0));
+//            EditText wordsEntered = (EditText) getActivity().findViewById(R.id.input_text);
+//
+//            // Put the spoken text in the EditText
+//            wordsEntered.setText(spokenText.get(0));
 
         }
 
 
         super.onActivityResult(requestCode, resultCode, data);
     }
+
     public void ExceptSpeechInput() {
 
         // Starts an Activity that will convert speech to text
@@ -91,13 +88,13 @@ public class ServerFragment extends Fragment  {
         intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
                 getString(R.string.speech_input_phrase));
 
-        try{
+        try {
 
             startActivityForResult(intent, 100);
 
-        } catch (ActivityNotFoundException e){
+        } catch (ActivityNotFoundException e) {
 
-            Toast.makeText(getActivity(),R.string.stt_not_supported_message, Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), R.string.stt_not_supported_message, Toast.LENGTH_LONG).show();
 
         }
 
@@ -105,21 +102,22 @@ public class ServerFragment extends Fragment  {
 
     public class ServerTask extends AsyncTask<String, Void, String> {
 
+        String result = "";
 
         @Override
         protected String doInBackground(String... urls) {
 
-            String result = "";
+
             URL url;
 
             HttpURLConnection urlConnection = null;
 
             try {
-
-                url = new URL(urls[0]);
-
+                Log.e("task", urls[0]);
+                String SpeechToText=urls[0].replace(" ","%20");
+                url = new URL("http://localhost:8000/api/" + SpeechToText + "/?format=json");
+                Log.e("Link Name", url.toString());
                 urlConnection = (HttpURLConnection) url.openConnection();
-
                 InputStream in = urlConnection.getInputStream();
 
                 InputStreamReader reader = new InputStreamReader(in);
@@ -147,9 +145,7 @@ public class ServerFragment extends Fragment  {
                 */
 
 
-
-
-            }catch (Exception e) {
+            } catch (Exception e) {
 
                 e.printStackTrace();
 
@@ -163,6 +159,10 @@ public class ServerFragment extends Fragment  {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
 
+            EditText wordsEntered = (EditText) getActivity().findViewById(R.id.input_text);
+
+            // Put the spoken text in the EditText
+            wordsEntered.setText(result);
         }
     }
 }
