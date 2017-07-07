@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -31,6 +32,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -64,7 +66,15 @@ public class BooksFragment extends Fragment {
         // Inflate the layout for this fragment
 
         View rootView = inflater.inflate(R.layout.fragment_books, container, false);
-
+        Button askHelen=(Button) rootView.findViewById(R.id.ask_helen);
+        askHelen.setOnClickListener(
+                new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //ExceptSpeechInput();
+                login();
+            }
+        });
 
         SharedPreferences sharedPreferences=getActivity().getSharedPreferences("com.example.tarek_ragaeey.helen11", Context.MODE_PRIVATE);
 
@@ -102,11 +112,6 @@ public class BooksFragment extends Fragment {
                         R.id.list_item_books_textview_2, // The ID of the textview to populate.
                         BooksNames);
 
-    /*    mBooksAdapter.add("Alice In WonderLand");
-        mBooksAdapter.add("A Tale Of Two Cities");
-        mBooksAdapter.add("App Statistics Report");
-        mBooksAdapter.add("Women From Venus Men From Mars");
-        mBooksAdapter.add("The Shining");*/
         ListView listView = (ListView) rootView.findViewById(R.id.listview_books);
         listView.setAdapter(mBooksAdapter);
 
@@ -123,6 +128,11 @@ public class BooksFragment extends Fragment {
         });
 
         return rootView;
+    }
+
+    private void login() {
+        Intent i=new Intent(getActivity(),LoginActivity.class);
+        startActivity(i);
     }
 
     @Override
@@ -203,9 +213,7 @@ public class BooksFragment extends Fragment {
 
                 Intent i = new Intent(getActivity(), PDFViewer.class);
                 i.putExtra("uri", uri.toString());
-               /* i.putExtra("path",FilePath );
-                i.putExtra("name",Filename );
-                i.putExtra("page","");*/
+
                 startActivity(i);
             }
         }
@@ -214,17 +222,27 @@ public class BooksFragment extends Fragment {
             // Store the data sent back in an ArrayList
             ArrayList<String> spokenText = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 
-            EditText wordsEntered = (EditText) getActivity().findViewById(R.id.input_text);
+           /* EditText wordsEntered = (EditText) getActivity().findViewById(R.id.input_text);
 
             // Put the spoken text in the EditText
-            wordsEntered.setText(spokenText.get(0));
+            wordsEntered.setText(spokenText.get(0));*/
+           ArrayList<String> Result=new ArrayList<>();
+           UnderstandUserTask task=new UnderstandUserTask();
+            try {
+                Result= task.execute(spokenText.get(0)).get();
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
 
         }
 
 
         super.onActivityResult(requestCode, resultCode, data);
     }
-    public void ExceptSpeechInput(View view) {
+    public void ExceptSpeechInput() {
 
         // Starts an Activity that will convert speech to text
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);

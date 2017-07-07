@@ -1,46 +1,21 @@
 package com.example.tarek_ragaeey.helen11;
 
-import android.app.ActionBar;
 import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.CountDownTimer;
 import android.speech.RecognizerIntent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.EditText;
 import android.widget.Toast;
-
-
-
-import com.github.barteksc.pdfviewer.PDFView;
-
-
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,9 +43,6 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(viewPager);
-
-
-
     }
 
    /* @Override
@@ -91,11 +63,7 @@ public class MainActivity extends AppCompatActivity {
       }
     }*/
     ////////////////////////////////////////////////////
-
-
         private static final int FILE_SELECT_CODE = 0;
-    private static final String TAG = "Tarek";
-
         private void showFileChooser() {
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             intent.setType("*/*");
@@ -144,8 +112,6 @@ public class MainActivity extends AppCompatActivity {
                     wordsEntered.setText(spokenText.get(0));
 
                 }
-
-
         super.onActivityResult(requestCode, resultCode, data);
     }
     public void ExceptSpeechInput(View view) {
@@ -175,16 +141,5 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
-
-
-
-
-
     //////////////////////////////////
-
-
-
-
-
 }

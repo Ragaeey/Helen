@@ -1,0 +1,161 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.tarek_ragaeey.helen11.BookDetailsActivityfragment"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginTop="20dp"
+    android:orientation="vertical"
+    android:id="@+id/parent_linear">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textStyle="bold"
+        android:id="@+id/object_title"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:textColor="@color/colorDarkGrey"
+        android:gravity="center"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="141dp"
+        android:id="@+id/relativeLayout1">
+        <ImageView
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:scaleType="fitXY"
+            android:id="@+id/object_poster"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/download_button"
+            android:layout_toEndOf="@+id/download_button"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="90dp"/>
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/download"
+            android:textColor="@color/colorDarkGrey"
+            android:id="@+id/download_button"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="51dp"/>
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/relativeLayout2"
+        android:layout_weight="7.48"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/description"
+            android:textColor="@color/colorDarkGrey"
+            android:textStyle="bold"
+            android:id="@+id/object_desc_title"
+            android:layout_below="@+id/user_ratings" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:id="@+id/object_desc"
+            android:textColor="@color/colorDarkGrey"
+            android:layout_below="@+id/object_desc_title"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/colorDarkGrey"
+            android:id="@+id/object_author"
+            android:layout_below="@+id/object_desc" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/colorDarkGrey"
+            android:id="@+id/object_release_date"
+            android:layout_below="@+id/object_author"
+            android:layout_marginTop="20dp"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/goodreads_rating"
+            android:textStyle="bold"
+            android:textColor="@color/colorDarkGrey"
+            android:id="@+id/goodreads_rating_title"
+            android:layout_alignLeft="@+id/goodreads_rating"
+            android:layout_alignStart="@+id/goodreads_rating"/>
+
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:stepSize="0.1"
+            android:rating="0"
+            android:id="@+id/goodreads_rating"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_below="@+id/goodreads_rating_title"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/user_ratings"
+            android:textStyle="bold"
+            android:textColor="@color/colorDarkGrey"
+            android:id="@+id/user_rating_title"
+            android:layout_below="@+id/goodreads_rating"
+            android:layout_alignLeft="@+id/user_ratings"
+            android:layout_alignStart="@+id/user_ratings"/>
+
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:stepSize="0.1"
+            android:rating="0"
+            android:id="@+id/user_ratings"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_below="@+id/user_rating_title"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"/>
+    </RelativeLayout>
+
+    <TextView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/listview_title"
+        android:textStyle="bold"
+        android:textColor="@color/colorDarkGrey"
+        android:id="@+id/trailer_review_title"
+        android:layout_marginTop="30dp"
+        android:layout_alignLeft="@+id/object_rating"
+        android:layout_alignStart="@+id/object_rating"/>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@color/colorPrimary2" />
+</LinearLayout>

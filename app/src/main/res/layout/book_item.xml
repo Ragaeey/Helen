@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:id="@+id/parent_Relative">
+
+    <ImageView
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:scaleType="fitXY"
+        android:id="@+id/poster_list_item_image">
+    </ImageView>
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="click to download"
+        android:layout_toEndOf="@+id/poster_list_item_image"
+        android:layout_toRightOf="@+id/poster_list_item_image"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/download_list_item_link">
+    </TextView>
+</RelativeLayout>

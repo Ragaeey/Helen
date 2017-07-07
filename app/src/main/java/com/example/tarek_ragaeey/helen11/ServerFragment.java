@@ -1,25 +1,25 @@
 package com.example.tarek_ragaeey.helen11;
 
-
 import android.content.ActivityNotFoundException;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -32,13 +32,12 @@ import java.util.Locale;
  * A simple {@link Fragment} subclass.
  */
 public class ServerFragment extends Fragment  {
-
-
+    private FragmentListener flisttener;
+    private AlertDialog alertDialog;
+    private BookSearch searcher;
     public ServerFragment() {
         // Required empty public constructor
     }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -48,14 +47,95 @@ public class ServerFragment extends Fragment  {
         mMic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ExceptSpeechInput();
+             //  ExceptSpeechInput();
+            search();
             }
         });
 
         return root;
     }
+    public boolean isOnline(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return (activeNetwork != null && activeNetwork.isConnectedOrConnecting());
+    }
+    private void showDialogMsg(String msg) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+        alertDialogBuilder.setMessage(msg);
+
+        alertDialogBuilder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                alertDialog.dismiss();
+                //getActivity().finish();
+            }
+        });
+
+        alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+    public void search()
+    {
+
+        EditText search_Query=(EditText) getActivity().findViewById(R.id.input_text);
+        String query= "";
+        if(search_Query != null)
+        {
+            Context context = getActivity();
+            query = search_Query.getText().toString();
+            if(isOnline(context)) {
+                searcher = new BookSearch(getActivity());
+                JSONObject bookInfo = null;
+                try {
+                    bookInfo = searcher.getBookByTitle(query);
+                    bookInfo.put("query_param",query);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Intent intent = new Intent(getActivity(), BookListActivity.class).putExtra("JSONObject", bookInfo.toString());
+                startActivity(intent);
+            }else
+                showDialogMsg("Please check your internet connection!");
+        }
+        else
+            showDialogMsg("Please enter a book title or an author name!");
+    }
+
+    ////////////////////////////////////////////////////////////////////
+   /* public void TestJson()
+    {
+        String result = "[ { \"query\":\"I want to a book called bad case of stripes\"," +
+                "\"query_class\":\"ReadBook\"," +
+                "\"score\":0.8199217319488525," +
+                "\"entities\":" +
+                "[ { \"entity\":\"a bad case of stripes\"," +
+                "\"type\":\"BOOK\"" +
+                " } ]," +
+                "\"intent\":\"ReadBook\"," +
+                "\"query_lemma\":\"-PRON- want to a book call harry potter \"" +
+                " } ]"; //result of the query
+        String queryClass=""; // returned class of the query ex: Readbook , searchbook
+        String Entity=""; // returned entity of the query ex: lord of the rings
+        String Type =""; // returned entity of the query ex: book or author
+      try {
+          JSONArray root = new JSONArray(result);
+          JSONObject root2=root.getJSONObject(0);
+          queryClass = root2.getString("query_class");
+          JSONArray Entity_Type = root2.getJSONArray("entities");
+          JSONObject EntityAndType = Entity_Type.getJSONObject(0);
+
+          Entity = EntityAndType.getString("entity");
+          Type = EntityAndType.getString("type");
+      } catch (Exception e) {
+          e.printStackTrace();
+        }
+        EditText et=(EditText) getActivity().findViewById(R.id.input_text);
+        et.setText("Query Class= "+queryClass +" Entity= "+Entity+" Type= "+Type);
 
 
+    }*/
+
+///////////////////////////////////////////////////////////////////////
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -71,8 +151,6 @@ public class ServerFragment extends Fragment  {
             wordsEntered.setText(spokenText.get(0));
 
         }
-
-
         super.onActivityResult(requestCode, resultCode, data);
     }
     public void ExceptSpeechInput() {
@@ -90,51 +168,46 @@ public class ServerFragment extends Fragment  {
         // Prompt the user to speak
         intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
                 getString(R.string.speech_input_phrase));
-
         try{
-
             startActivityForResult(intent, 100);
-
         } catch (ActivityNotFoundException e){
-
             Toast.makeText(getActivity(),R.string.stt_not_supported_message, Toast.LENGTH_LONG).show();
-
         }
-
     }
 
     public class ServerTask extends AsyncTask<String, Void, String> {
-
+        String result = ""; //result of the query
+        String queryClass=""; // returned class of the query ex: Readbook , searchbook
+        String Entity=""; // returned entity of the query ex: lord of the rings
+        String Type=""; // returned entity of the query ex: book or author
+        URL url;
 
         @Override
         protected String doInBackground(String... urls) {
 
-            String result = "";
-            URL url;
 
             HttpURLConnection urlConnection = null;
 
             try {
-
                 url = new URL(urls[0]);
-
                 urlConnection = (HttpURLConnection) url.openConnection();
-
                 InputStream in = urlConnection.getInputStream();
-
                 InputStreamReader reader = new InputStreamReader(in);
-
                 int data = reader.read();
-
                 while (data != -1) {
-
                     char current = (char) data;
-
                     result += current;
-
                     data = reader.read();
-
                 }
+                JSONArray arr=new JSONArray(result);
+                JSONObject root = arr.getJSONObject(0);
+                queryClass=root.getString("query_class");
+                JSONArray Entity_Type=root.getJSONArray("entities");
+                JSONObject EntityAndType=Entity_Type.getJSONObject(0);
+
+                Entity=EntityAndType.getString("entity");
+                Type=EntityAndType.getString("type");
+
 
                 /*JSONObject root = new JSONObject(result);
                 JSONArray sportsArray = root.getJSONArray("sport");
@@ -145,24 +218,16 @@ public class ServerFragment extends Fragment  {
                 int id = firstSport.getInt("id"); // 40
                 JSONArray leaguesArray = firstSport.getJSONArray("leagues");
                 */
-
-
-
-
             }catch (Exception e) {
 
                 e.printStackTrace();
-
             }
-
-
             return result;
         }
 
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-
         }
     }
 }
