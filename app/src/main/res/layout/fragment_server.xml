@@ -13,7 +13,7 @@
 
 
     <ImageView
-<<<<<<< HEAD
+
         android:layout_width="130dp"
         android:layout_height="130dp"
         android:src="@mipmap/search_icon"
@@ -31,11 +31,11 @@
             android:layout_above="@+id/input_text"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="57dp"/>
->>>>>>> origin/master
+
 
 
     <EditText
-<<<<<<< HEAD
+
         android:id="@+id/input_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -73,7 +73,7 @@
         android:text="Find Similar Books" />
 
 </RadioGroup>
-=======
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textMultiLine"
@@ -81,7 +81,7 @@
             android:id="@+id/input_text"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"/>
->>>>>>> origin/master
+
 
 
 </RelativeLayout>

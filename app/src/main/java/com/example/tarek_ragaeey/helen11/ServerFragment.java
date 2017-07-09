@@ -4,20 +4,15 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-<<<<<<< HEAD
+
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-=======
->>>>>>> origin/master
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.v4.app.Fragment;
-<<<<<<< HEAD
 import android.support.v7.app.AlertDialog;
-=======
 import android.util.Log;
->>>>>>> origin/master
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
